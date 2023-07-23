@@ -361,3 +361,7 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/DllTest/DllTest.vcxproj.filters
+/DllTest/DllTest.vcxproj
+/ConsoleApp1/ConsoleApp1.csproj
+/TestDll/TestDll.csproj
