@@ -94,3 +94,9 @@ Console.WriteLine(JsonSerializer.Serialize(testStruct, new JsonSerializerOptions
 {
     IncludeFields = true,
 }));
+
+CppWapper.GetStructArray(out var testStructs, 3);
+Console.WriteLine(JsonSerializer.Serialize(testStructs, new JsonSerializerOptions
+{
+    IncludeFields = true,
+}));
