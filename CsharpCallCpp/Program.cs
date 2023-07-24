@@ -35,8 +35,44 @@ Console.WriteLine($"Get From Cpp: {CppWapper.GetBool()}");
 
 #region 字符串
 
-CppWapper.SetString("foo");
-Console.WriteLine($"Get From Cpp: {Marshal.PtrToStringAnsi(CppWapper.GetString())}");
+
+CppWapper.SetString("fo00000000000000000000000000o");
+
+nint strPtr = CppWapper.GetString();
+
+
+
+
+
+// 存在风险
+//Console.WriteLine($"Get From Cpp(GetString2): {CppWapper.GetString2()}");
+
+// 存在风险
+Console.WriteLine($"Get From Cpp(GetString): {Marshal.PtrToStringAnsi(strPtr)}");
+
+while (true)
+{
+    Console.WriteLine($"Get From Cpp(GetString): {Marshal.PtrToStringAnsi(strPtr)}");
+
+    strPtr = CppWapper.GetNewString();
+    Console.WriteLine($"Get From Cpp(GetNewString): {Marshal.PtrToStringAnsi(strPtr)}");
+    Marshal.FreeHGlobal(strPtr);
+    Console.WriteLine($"Get From Cpp(GetNewString2): {CppWapper.GetNewString2()}");
+    if (Console.KeyAvailable)
+    if ( Console.ReadKey(true).Key == ConsoleKey.Spacebar)
+    {
+        break;
+    }
+    await Task.Delay(1);
+}
+
+
+
+//Console.WriteLine($"Get From Cpp(GetNewString2): {CppWapper.GetNewString2()}");
+
+
+
+
 
 // 可行
 StringBuilder modfiyString = new("sadasd");
@@ -61,6 +97,7 @@ for (int i = 0; i < count; i++)
     IntPtr ptr = Marshal.ReadIntPtr(strArrayPtr, i * IntPtr.Size);
     result[i] = Marshal.PtrToStringAnsi(ptr);
     Console.WriteLine($"result[{i}]: {result[i]}");
+    //Marshal.AllocHGlobal(ptr);
 }
 Console.WriteLine(string.Join(", ", result));
 #endregion
@@ -95,8 +132,34 @@ Console.WriteLine(JsonSerializer.Serialize(testStruct, new JsonSerializerOptions
     IncludeFields = true,
 }));
 
+TestStruct1 testStruct1 = new TestStruct1();
+CppWapper.ModifyStruct(ref testStruct1);
+Console.WriteLine(JsonSerializer.Serialize(testStruct1, new JsonSerializerOptions
+{
+    IncludeFields = true,
+}));
+
+
+// 存在问题
 CppWapper.GetStructArray(out var testStructs, 3);
 Console.WriteLine(JsonSerializer.Serialize(testStructs, new JsonSerializerOptions
 {
     IncludeFields = true,
+    WriteIndented = true,
+}));
+
+
+TestStruct[] testStructs1 = new TestStruct[3];
+CppWapper.GetStructArray(testStructs1, 3);
+Console.WriteLine(JsonSerializer.Serialize(testStructs1, new JsonSerializerOptions
+{
+    IncludeFields = true,
+    WriteIndented = true,
+}));
+Console.WriteLine("------------------------");
+CppWapper.GetArrayStruct(out var arrayStruct);
+Console.WriteLine(JsonSerializer.Serialize(arrayStruct, new JsonSerializerOptions
+{
+    IncludeFields = true,
+    WriteIndented = true,
 }));

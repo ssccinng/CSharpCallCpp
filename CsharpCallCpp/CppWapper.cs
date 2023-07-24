@@ -59,6 +59,13 @@ namespace CsharpCallCpp
         [DllImport(_dllPath)]
         public static extern nint GetString();
         [DllImport(_dllPath)]
+        public static extern string GetString2();
+
+        [DllImport(_dllPath)]
+        public static extern nint GetNewString();
+        [DllImport(_dllPath)]
+        public static extern string GetNewString2();
+        [DllImport(_dllPath)]
         public static extern void SetString(string s);
 
         [DllImport(_dllPath)]
@@ -101,11 +108,19 @@ namespace CsharpCallCpp
 
         [DllImport(_dllPath)]
         public static extern void ModifyStruct(ref TestStruct testStruct);
+
+        [DllImport(_dllPath)]
+        public static extern void ModifyStruct(ref TestStruct1 testStruct);
         [DllImport(_dllPath)]
         public static extern void GetStructArray(out TestStruct[] testStructs, int count);
+        [DllImport(_dllPath)]
+        public static extern void GetStructArray(TestStruct[] testStructs, int count);
+
+        [DllImport(_dllPath)]
+        public static extern void GetArrayStruct(out TestArrayStruct testStructs);
 
     }
-    [StructLayout(LayoutKind.Sequential, Pack = 2)]
+    [StructLayout(LayoutKind.Sequential, Pack = 4)]
 
     public struct TestStruct
     {
@@ -114,5 +129,48 @@ namespace CsharpCallCpp
         public int Int2;
         public byte Byte2;
         public byte Byte3;
+    }
+
+
+    [StructLayout(LayoutKind.Sequential, Pack = 2)]
+
+    public struct TestStruct2
+    {
+        public int Int1;
+        public byte Byte1;
+        public int Int2;
+        public byte Byte2;
+        public byte Byte3;
+    }
+
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+
+    public struct TestStruct1
+    {
+        public int Int1;
+        public byte Byte1;
+        public byte Byte1_1;
+        public byte Byte1_2;
+        public byte Byte1_3;
+        public int Int2;
+        public byte Byte2;
+        public byte Byte3;
+    }
+
+    public struct TestArrayStruct
+    {
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 10)]
+        public int[] Ints;
+        [MarshalAs(UnmanagedType.ByValArray, ArraySubType = UnmanagedType.I1, SizeConst = 10)]
+        public bool[] Bools;
+
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 10)]
+        public TestStruct[] TestStructs;
+
+        // [MarshalAs(UnmanagedType.ByValArray, ArraySubType = UnmanagedType.Struct, SizeConst = 10)]
+
+        // 不行哦
+        //[MarshalAs(UnmanagedType.ByValArray, ArraySubType = UnmanagedType.ByValTStr, SizeConst = 10)]
+        //public string[] strings;
     }
 }

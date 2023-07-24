@@ -18,6 +18,14 @@ struct TestStruct {
     unsigned char Byte3;
 };
 
+struct TestArrayStruct
+{
+	int Ints[10];
+	bool Bools[10];
+	TestStruct TestStructs[10];
+	// 其他成员字段...
+};
+
 
 #ifdef __cplusplus
 extern "C" {
@@ -49,6 +57,9 @@ extern "C" {
 
 	__declspec(dllexport) void SetString(const char* str);
 	__declspec(dllexport) const char* GetString();
+	__declspec(dllexport) const char* GetString2();
+	__declspec(dllexport) char* GetNewString();
+	__declspec(dllexport) char* GetNewString2();
 
 	__declspec(dllexport) void ModifyString(char* str, int len);
 
@@ -66,10 +77,12 @@ extern "C" {
 	__declspec(dllexport) void ModifyInt(int* i);
 
 	__declspec(dllexport) void ModifyStruct(TestStruct* s);
-	__declspec(dllexport) void GetStructArray(TestStruct* s, int count);
+	__declspec(dllexport) void GetStructArray(TestStruct** s, int count);
+	__declspec(dllexport) void GetStructArray1(TestStruct* s, int count);
 
 	
-
+	__declspec(dllexport) void ModifyArrayStruct(TestArrayStruct* s);
+	__declspec(dllexport) void GetArrayStruct(TestArrayStruct* s);
 
 
 

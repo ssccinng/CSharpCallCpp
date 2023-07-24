@@ -85,12 +85,36 @@ void SetBool(bool new_bl) {
 std::string myString;
 
 void SetString(const char* str) {
-    myString = str;
+    // 释放风险！！
+
+    //myString = str;
+    char buffer[1024];
+    strcpy_s(buffer, str);
+    myString = buffer;
 }
+
 
 const char* GetString() {
     return myString.c_str();
 }
+
+const char* GetString2() {
+    return myString.c_str();
+}
+
+char* GetNewString() {
+    std::cout << myString << std::endl;
+    char* res = new char[myString.size() + 1];
+    strcpy_s(res, myString.size() + 1, myString.c_str());
+    return res;
+}
+
+char* GetNewString2() {
+    char* res = new char[myString.size() + 1];
+    strcpy_s(res, myString.size() + 1, myString.c_str());
+    return res;
+}
+// 要看返回方式
 
 
 void ModifyString(char* str, int len) {
@@ -113,7 +137,7 @@ char** GetStringArray(int* count) {
     char** result = new char*[*count];
     for (int i = 0; i < *count; i++) {
         result[i] = new char[myStringArray[i].size() + 1];
-        strcpy_s(result[i], 128, myStringArray[i].c_str());
+        strcpy_s(result[i], myStringArray[i].size() + 1, myStringArray[i].c_str());
     }
     return result;
 }
@@ -164,8 +188,19 @@ void ModifyStruct(TestStruct* s) {
     s->Byte3 = 'C';
 }
 
-void GetStructArray(TestStruct* s, int count) {
-    s = new TestStruct[count];
+void GetStructArray(TestStruct** s, int count) {
+    *s = new TestStruct[count];
+    for (int i = 0; i < count; i++) {
+        (*s)[i].Int1 = 100;
+        (*s)[i].Byte1 = 'A';
+        (*s)[i].Int2 = 200;
+        (*s)[i].Byte2 = 'B';
+        (*s)[i].Byte3 = 'C';
+    }
+}
+
+void GetStructArray1(TestStruct* s, int count) {
+    //*s = new TestStruct[count];
     for (int i = 0; i < count; i++) {
         s[i].Int1 = 100;
         s[i].Byte1 = 'A';
@@ -173,4 +208,17 @@ void GetStructArray(TestStruct* s, int count) {
         s[i].Byte2 = 'B';
         s[i].Byte3 = 'C';
     }
+}
+
+void GetArrayStruct(TestArrayStruct* s)
+{
+    for (size_t i = 0; i < 10; i++)
+    {
+        s->Ints[i] = i * i;
+        s->Bools[i] = !i;
+        s->TestStructs[i].Int1 = i;
+        /* code */
+    }
+    
+
 }
