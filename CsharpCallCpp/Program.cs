@@ -57,13 +57,15 @@ while (true)
     strPtr = CppWapper.GetNewString();
     Console.WriteLine($"Get From Cpp(GetNewString): {Marshal.PtrToStringAnsi(strPtr)}");
     Marshal.FreeHGlobal(strPtr);
+
     Console.WriteLine($"Get From Cpp(GetNewString2): {CppWapper.GetNewString2()}");
-    if (Console.KeyAvailable)
-    if ( Console.ReadKey(true).Key == ConsoleKey.Spacebar)
+    //if (Console.KeyAvailable)
+    var key = Console.ReadKey().Key;
+    if (key == ConsoleKey.Spacebar)
     {
         break;
     }
-    await Task.Delay(1);
+    //await Task.Delay(1);
 }
 
 
@@ -84,6 +86,14 @@ CppWapper.ModifyString(modfiyString1, modfiyString.Length);
 Console.WriteLine($"Get modfiyString1 From Cpp: {modfiyString1}");
 
 
+var modfiyString2 = "sadasd".ToCharArray();
+
+CppWapper.ModifyString(modfiyString2, modfiyString2.Length);
+Console.WriteLine($"Get modfiyString2 From Cpp: {new string(modfiyString2)}");
+
+
+
+Console.ReadKey();
 
 
 string[] strArray = new string[] { "Hello", "World" };
@@ -101,7 +111,7 @@ for (int i = 0; i < count; i++)
 }
 Console.WriteLine(string.Join(", ", result));
 #endregion
-
+Console.ReadKey();
 CppWapper.SetBoolArray(new bool[] { true, false, true }, 3);
 bool[] bools = new bool[3];
 CppWapper.GetBoolArray(bools, 3);
@@ -109,7 +119,7 @@ for (int i = 0; i < 3; i++)
 {
     Console.WriteLine(bools[i]);
 }
-
+Console.ReadKey();
 
 byte[] bytes = new byte[3];
 
@@ -120,7 +130,7 @@ for (int i = 0; i < 3; i++)
     Console.WriteLine(bytes[i]);
 }
 
-
+Console.ReadKey();
 int modInt = 0;
 CppWapper.ModifyInt(ref modInt);
 Console.WriteLine($"Modify int: {modInt}");
@@ -131,7 +141,7 @@ Console.WriteLine(JsonSerializer.Serialize(testStruct, new JsonSerializerOptions
 {
     IncludeFields = true,
 }));
-
+Console.ReadKey();
 TestStruct1 testStruct1 = new TestStruct1();
 CppWapper.ModifyStruct(ref testStruct1);
 Console.WriteLine(JsonSerializer.Serialize(testStruct1, new JsonSerializerOptions
@@ -147,7 +157,7 @@ Console.WriteLine(JsonSerializer.Serialize(testStructs, new JsonSerializerOption
     IncludeFields = true,
     WriteIndented = true,
 }));
-
+Console.ReadKey();
 
 TestStruct[] testStructs1 = new TestStruct[3];
 CppWapper.GetStructArray(testStructs1, 3);
@@ -156,6 +166,7 @@ Console.WriteLine(JsonSerializer.Serialize(testStructs1, new JsonSerializerOptio
     IncludeFields = true,
     WriteIndented = true,
 }));
+Console.ReadKey();
 Console.WriteLine("------------------------");
 CppWapper.GetArrayStruct(out var arrayStruct);
 Console.WriteLine(JsonSerializer.Serialize(arrayStruct, new JsonSerializerOptions
@@ -163,3 +174,16 @@ Console.WriteLine(JsonSerializer.Serialize(arrayStruct, new JsonSerializerOption
     IncludeFields = true,
     WriteIndented = true,
 }));
+Console.ReadKey();
+
+Console.WriteLine("------------------------");
+
+CppWapper.CallCsFunc(CsFunc);
+
+static int CsFunc()
+{
+    Console.WriteLine(111);
+    return 114514;
+}
+
+Console.ReadKey();

@@ -207,6 +207,7 @@ void GetStructArray1(TestStruct* s, int count) {
         s[i].Int2 = 200;
         s[i].Byte2 = 'B';
         s[i].Byte3 = 'C';
+
     }
 }
 
@@ -221,4 +222,9 @@ void GetArrayStruct(TestArrayStruct* s)
     }
     
 
+}
+
+void CallCsFunc(int (*func)()) {
+    int aa = func();
+    std::cout << aa << std::endl;
 }

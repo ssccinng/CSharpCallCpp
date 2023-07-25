@@ -71,6 +71,8 @@ namespace CsharpCallCpp
         [DllImport(_dllPath)]
         public static extern void ModifyString(StringBuilder s, int len);
         [DllImport(_dllPath)]
+        public static extern void ModifyString(char[] s, int len);
+        [DllImport(_dllPath)]
         public static extern void ModifyString(string s, int len);
 
         [DllImport(_dllPath)]
@@ -119,6 +121,10 @@ namespace CsharpCallCpp
         [DllImport(_dllPath)]
         public static extern void GetArrayStruct(out TestArrayStruct testStructs);
 
+        [DllImport(_dllPath)]
+        public static extern void CallCsFunc(TestWC func);
+
+        public delegate int TestWC();
     }
     [StructLayout(LayoutKind.Sequential, Pack = 4)]
 
@@ -129,6 +135,9 @@ namespace CsharpCallCpp
         public int Int2;
         public byte Byte2;
         public byte Byte3;
+
+        //[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 10)]
+        //public string Str = "C";
     }
 
 

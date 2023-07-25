@@ -16,6 +16,7 @@ struct TestStruct {
     int Int2;
     unsigned char Byte2;
     unsigned char Byte3;
+	//const char* Str;
 };
 
 struct TestArrayStruct
@@ -83,6 +84,8 @@ extern "C" {
 	
 	__declspec(dllexport) void ModifyArrayStruct(TestArrayStruct* s);
 	__declspec(dllexport) void GetArrayStruct(TestArrayStruct* s);
+
+	__declspec(dllexport) void CallCsFunc(int (*func)());
 
 
 
