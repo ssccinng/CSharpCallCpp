@@ -84,7 +84,7 @@ void SetBool(bool new_bl) {
 
 std::string myString;
 
-void SetString(const char* str) {
+void SetString(const char* str) { // C# Gc
     // 释放风险！！
 
     //myString = str;
@@ -102,7 +102,7 @@ const char* GetString2() {
     return myString.c_str();
 }
 
-char* GetNewString() {
+char* GetNewString() { // char[]
     std::cout << myString << std::endl;
     char* res = new char[myString.size() + 1];
     strcpy_s(res, myString.size() + 1, myString.c_str());
@@ -121,6 +121,7 @@ void ModifyString(char* str, int len) {
     for (int i = 0; i < len; i++) {
         str[i] = std::toupper(str[i]);
     }
+    std::cout << str << std::endl;
 }
 
 std::vector<std::string> myStringArray;

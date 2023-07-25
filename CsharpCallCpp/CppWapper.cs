@@ -58,11 +58,13 @@ namespace CsharpCallCpp
 
         [DllImport(_dllPath)]
         public static extern nint GetString();
+        // 不推荐
         [DllImport(_dllPath)]
         public static extern string GetString2();
 
         [DllImport(_dllPath)]
-        public static extern nint GetNewString();
+        public static extern IntPtr GetNewString(); // char[] 
+        // 不推荐
         [DllImport(_dllPath)]
         public static extern string GetNewString2();
         [DllImport(_dllPath)]
@@ -71,7 +73,7 @@ namespace CsharpCallCpp
         [DllImport(_dllPath)]
         public static extern void ModifyString(StringBuilder s, int len);
         [DllImport(_dllPath)]
-        public static extern void ModifyString(char[] s, int len);
+        public static extern void ModifyString([In, Out] char[] s, int len);
         [DllImport(_dllPath)]
         public static extern void ModifyString(string s, int len);
 
@@ -87,7 +89,7 @@ namespace CsharpCallCpp
 
         [DllImport(_dllPath)]
 
-        public static extern void GetBoolArray([MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.I1)] bool[] bools, int count);
+        public static extern void GetBoolArray([MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.I1), Out] bool[] bools, int count);
 
         /// <summary>
         /// 吃瘪操作
@@ -101,9 +103,9 @@ namespace CsharpCallCpp
 
 
         [DllImport(_dllPath)]
-        public static extern void GetBoolArray(byte[] bools, int count);
+        public static extern void GetBoolArray([Out] byte[] bools, int count);
         [DllImport(_dllPath)]
-        public static extern void SetBoolArray(byte[] bools, int count);
+        public static extern void SetBoolArray( byte[] bools, int count);
 
         [DllImport(_dllPath)]
         public static extern void ModifyInt(ref int i);
@@ -116,7 +118,7 @@ namespace CsharpCallCpp
         [DllImport(_dllPath)]
         public static extern void GetStructArray(out TestStruct[] testStructs, int count);
         [DllImport(_dllPath)]
-        public static extern void GetStructArray(TestStruct[] testStructs, int count);
+        public static extern void GetStructArray1([In, Out] TestStruct[] testStructs, int count);
 
         [DllImport(_dllPath)]
         public static extern void GetArrayStruct(out TestArrayStruct testStructs);

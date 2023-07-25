@@ -8,7 +8,9 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.Json;
 
-CppWapper.SetInt(1);
+// P/Invoke
+
+CppWapper.SetInt(7);
 Console.WriteLine($"Get From Cpp: {CppWapper.GetInt()}");
 
 CppWapper.SetChar('a');
@@ -29,7 +31,7 @@ Console.WriteLine($"Get From Cpp: {CppWapper.GetDouble()}");
 #endregion
 
 #region Bool    
-CppWapper.SetBool(true);
+CppWapper.SetBool(true); // 4字节 cpp 1字节
 Console.WriteLine($"Get From Cpp: {CppWapper.GetBool()}");
 #endregion
 
@@ -52,20 +54,25 @@ Console.WriteLine($"Get From Cpp(GetString): {Marshal.PtrToStringAnsi(strPtr)}")
 
 while (true)
 {
+    strPtr = CppWapper.GetString();
     Console.WriteLine($"Get From Cpp(GetString): {Marshal.PtrToStringAnsi(strPtr)}");
+    //Marshal.FreeHGlobal(strPtr);
 
     strPtr = CppWapper.GetNewString();
     Console.WriteLine($"Get From Cpp(GetNewString): {Marshal.PtrToStringAnsi(strPtr)}");
+
     Marshal.FreeHGlobal(strPtr);
 
     Console.WriteLine($"Get From Cpp(GetNewString2): {CppWapper.GetNewString2()}");
-    //if (Console.KeyAvailable)
+
+    //Console.WriteLine($"Get From Cpp(GetString2): {CppWapper.GetString2()}");
+    //if (console.keyavailable)
     var key = Console.ReadKey().Key;
     if (key == ConsoleKey.Spacebar)
     {
         break;
     }
-    //await Task.Delay(1);
+    await Task.Delay(1);
 }
 
 
@@ -86,8 +93,7 @@ CppWapper.ModifyString(modfiyString1, modfiyString.Length);
 Console.WriteLine($"Get modfiyString1 From Cpp: {modfiyString1}");
 
 
-var modfiyString2 = "sadasd".ToCharArray();
-
+char[] modfiyString2 = "sadasd".ToCharArray();
 CppWapper.ModifyString(modfiyString2, modfiyString2.Length);
 Console.WriteLine($"Get modfiyString2 From Cpp: {new string(modfiyString2)}");
 
@@ -107,8 +113,10 @@ for (int i = 0; i < count; i++)
     IntPtr ptr = Marshal.ReadIntPtr(strArrayPtr, i * IntPtr.Size);
     result[i] = Marshal.PtrToStringAnsi(ptr);
     Console.WriteLine($"result[{i}]: {result[i]}");
-    //Marshal.AllocHGlobal(ptr);
+    Marshal.FreeHGlobal(ptr);
 }
+Marshal.FreeHGlobal(strArrayPtr);
+
 Console.WriteLine(string.Join(", ", result));
 #endregion
 Console.ReadKey();
@@ -160,7 +168,7 @@ Console.WriteLine(JsonSerializer.Serialize(testStructs, new JsonSerializerOption
 Console.ReadKey();
 
 TestStruct[] testStructs1 = new TestStruct[3];
-CppWapper.GetStructArray(testStructs1, 3);
+CppWapper.GetStructArray1(testStructs1, 3);
 Console.WriteLine(JsonSerializer.Serialize(testStructs1, new JsonSerializerOptions
 {
     IncludeFields = true,

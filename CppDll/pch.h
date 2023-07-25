@@ -100,6 +100,8 @@ extern "C" {
 
 #ifdef __cplusplus
 }
+
+__declspec(dllexport) void CallCsFunc1(int a) {}
 #endif
 
 
