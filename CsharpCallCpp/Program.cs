@@ -40,47 +40,54 @@ Console.WriteLine($"Get From Cpp: {CppWapper.GetBool()}");
 
 CppWapper.SetString("fo00000000000000000000000000o");
 
-nint strPtr = CppWapper.GetString();
+//nint strPtr = CppWapper.GetString();
 
-
-
+nint strPtr;
+//Marshal.FreeHGlobal()
 
 
 // 存在风险
 //Console.WriteLine($"Get From Cpp(GetString2): {CppWapper.GetString2()}");
 
 // 存在风险
-Console.WriteLine($"Get From Cpp(GetString): {Marshal.PtrToStringAnsi(strPtr)}");
+//Console.WriteLine($"Get From Cpp(GetString): {Marshal.PtrToStringAnsi(strPtr)}");
 
-while (true)
+Parallel.For(0, 2, (i) =>
 {
-    strPtr = CppWapper.GetString();
-    Console.WriteLine($"Get From Cpp(GetString): {Marshal.PtrToStringAnsi(strPtr)}");
-    //Marshal.FreeHGlobal(strPtr);
-
     strPtr = CppWapper.GetNewString();
     Console.WriteLine($"Get From Cpp(GetNewString): {Marshal.PtrToStringAnsi(strPtr)}");
-
     Marshal.FreeHGlobal(strPtr);
 
-    Console.WriteLine($"Get From Cpp(GetNewString2): {CppWapper.GetNewString2()}");
+});
+Console.ReadKey();
+//while (true)
+//{
+//    strPtr = CppWapper.GetString();
+//    Console.WriteLine($"Get From Cpp(GetString): {Marshal.PtrToStringAnsi(strPtr)}");
+//    //Marshal.FreeHGlobal(strPtr);
 
-    //Console.WriteLine($"Get From Cpp(GetString2): {CppWapper.GetString2()}");
-    //if (console.keyavailable)
-    var key = Console.ReadKey().Key;
-    if (key == ConsoleKey.Spacebar)
-    {
-        break;
-    }
-    await Task.Delay(1);
-}
+//    strPtr = CppWapper.GetNewString();
+//    Console.WriteLine($"Get From Cpp(GetNewString): {Marshal.PtrToStringAnsi(strPtr)}");
+
+//    Marshal.FreeHGlobal(strPtr);
+//    Console.WriteLine($"Get From Cpp(GetNewString2): {CppWapper.GetNewString2()}");
+
+//    //Console.WriteLine($"Get From Cpp(GetString2): {CppWapper.GetString2()}");
+//    //if (console.keyavailable)
+//    var key = Console.ReadKey().Key;
+//    if (key == ConsoleKey.Spacebar)
+//    {
+//        break;
+//    }
+//    await Task.Delay(1);
+//}
 
 
 
 //Console.WriteLine($"Get From Cpp(GetNewString2): {CppWapper.GetNewString2()}");
 
 
-
+//Marshal.AllocHGlobal()
 
 
 // 可行
@@ -106,18 +113,18 @@ string[] strArray = new string[] { "Hello", "World" };
 CppWapper.SetStringArray(strArray, strArray.Length);
 
 
-IntPtr strArrayPtr = CppWapper.GetStringArray(out int count);
-string[] result = new string[count];
-for (int i = 0; i < count; i++)
-{
-    IntPtr ptr = Marshal.ReadIntPtr(strArrayPtr, i * IntPtr.Size);
-    result[i] = Marshal.PtrToStringAnsi(ptr);
-    Console.WriteLine($"result[{i}]: {result[i]}");
-    Marshal.FreeHGlobal(ptr);
-}
-Marshal.FreeHGlobal(strArrayPtr);
+//IntPtr strArrayPtr = CppWapper.GetStringArray(out int count);
+//string[] result = new string[count];
+//for (int i = 0; i < count; i++)
+//{
+//    IntPtr ptr = Marshal.ReadIntPtr(strArrayPtr, i * IntPtr.Size);
+//    result[i] = Marshal.PtrToStringAnsi(ptr);
+//    Console.WriteLine($"result[{i}]: {result[i]}");
+//    Marshal.FreeHGlobal(ptr);
+//}
+//Marshal.FreeHGlobal(strArrayPtr);
 
-Console.WriteLine(string.Join(", ", result));
+//Console.WriteLine(string.Join(", ", result));
 #endregion
 Console.ReadKey();
 CppWapper.SetBoolArray(new bool[] { true, false, true }, 3);

@@ -56,17 +56,20 @@ namespace CsharpCallCpp
         public static extern void SetBool([MarshalAs(UnmanagedType.I1)] bool b);
         #endregion 
 
-        [DllImport(_dllPath)]
-        public static extern nint GetString();
-        // 不推荐
-        [DllImport(_dllPath)]
-        public static extern string GetString2();
-
+        //[DllImport(_dllPath)]
+        //public static extern nint GetString();
+        //// 不推荐
+        //[DllImport(_dllPath)]
+        //public static extern string GetString2();
+        /// <summary>
+        /// 错误的！
+        /// </summary>
+        /// <returns></returns>
         [DllImport(_dllPath)]
         public static extern IntPtr GetNewString(); // char[] 
-        // 不推荐
-        [DllImport(_dllPath)]
-        public static extern string GetNewString2();
+        //// 不推荐
+        //[DllImport(_dllPath)]
+        //public static extern string GetNewString2();
         [DllImport(_dllPath)]
         public static extern void SetString(string s);
 
@@ -80,8 +83,8 @@ namespace CsharpCallCpp
         [DllImport(_dllPath)]
         public static extern void SetStringArray(string[] strArray, int count);
 
-        [DllImport(_dllPath)]
-        public static extern IntPtr GetStringArray(out int count);
+        //[DllImport(_dllPath)]
+        //public static extern IntPtr GetStringArray(out int count);
 
 
         //public static extern void GetBoolArray(bool[] bools, int count); 错误示范
@@ -127,6 +130,15 @@ namespace CsharpCallCpp
         public static extern void CallCsFunc(TestWC func);
 
         public delegate int TestWC();
+        // https://gist.github.com/GeeLaw/e29d5c52ed7114750eff2310900b50f5
+
+        /// <summary>
+        /// 第一次调用获取字符串长度，第二次传入指定大小的区域调用获取字符串, 返回值为错误码
+        /// </summary>
+        /// <param name="str"></param>
+        /// <param name="conut"></param>
+        //public static extern int GetString2(char[] str, ref int count); // 字符串不会超过128
+
     }
     [StructLayout(LayoutKind.Sequential, Pack = 4)]
 

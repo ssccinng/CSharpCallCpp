@@ -118,6 +118,7 @@ char* GetNewString2() {
 
 
 void ModifyString(char* str, int len) {
+    // len < 128
     for (int i = 0; i < len; i++) {
         str[i] = std::toupper(str[i]);
     }
@@ -133,15 +134,15 @@ void SetStringArray(const char** strArray, int count) {
     }
 }
 
-char** GetStringArray(int* count) {
-    *count = myStringArray.size();
-    char** result = new char*[*count];
-    for (int i = 0; i < *count; i++) {
-        result[i] = new char[myStringArray[i].size() + 1];
-        strcpy_s(result[i], myStringArray[i].size() + 1, myStringArray[i].c_str());
-    }
-    return result;
-}
+//char** GetStringArray(int* count) {
+//    *count = myStringArray.size();
+//    char** result = new char*[*count];
+//    for (int i = 0; i < *count; i++) {
+//        result[i] = new char[myStringArray[i].size() + 1];
+//        strcpy_s(result[i], myStringArray[i].size() + 1, myStringArray[i].c_str());
+//    }
+//    return result;
+//}
 
 std::vector<int> myIntArray;
 void SetIntArray(int* intArray, int count) {
@@ -151,14 +152,14 @@ void SetIntArray(int* intArray, int count) {
     }
 }
 
-int* GetIntArray(int* count) {
-    *count = myIntArray.size();
-    int* result = new int[*count];
-    for (int i = 0; i < *count; i++) {
-        result[i] = myIntArray[i];
-    }
-    return result;
-}
+//int* GetIntArray(int* count) {
+//    *count = myIntArray.size();
+//    int* result = new int[*count];
+//    for (int i = 0; i < *count; i++) {
+//        result[i] = myIntArray[i];
+//    }
+//    return result;
+//}
 
 std::vector<bool> myBoolArray;
 void SetBoolArray(bool* boolArray, int count) {
