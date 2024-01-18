@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
-
 namespace CsharpCallCpp
 {
-    public static class CppWapper
+    public  static class CppWapper
     {
         private const string _dllPath = @"..\..\..\..\..\DllTest\x64\Release\CppDll.dll";
         #region 基础数据类型
@@ -130,7 +130,13 @@ namespace CsharpCallCpp
         public static extern void CallCsFunc(TestWC func);
 
         public delegate int TestWC();
-        // https://gist.github.com/GeeLaw/e29d5c52ed7114750eff2310900b50f5
+
+        [DllImport(
+        _dllPath,
+        EntryPoint = "getStructString")]
+
+        public static extern int GetStructString(ref TestStringStruct str);
+
 
         /// <summary>
         /// 第一次调用获取字符串长度，第二次传入指定大小的区域调用获取字符串, 返回值为错误码
@@ -140,6 +146,16 @@ namespace CsharpCallCpp
         //public static extern int GetString2(char[] str, ref int count); // 字符串不会超过128
 
     }
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
+
+    public struct TestStringStruct
+    {
+        //public string str;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 256)]
+        public string str;
+
+    }
+
     [StructLayout(LayoutKind.Sequential, Pack = 4)]
 
     public struct TestStruct

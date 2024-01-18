@@ -230,3 +230,44 @@ void CallCsFunc(int (*func)()) {
     int aa = func();
     std::cout << aa << std::endl;
 }
+
+const const wchar_t* to_lower(const wchar_t* str)
+{
+    // 创建一个新的字符串，用于存储转换后的结果
+    size_t len = wcslen(str);
+    wchar_t* result = new wchar_t[len + 1];
+    // 遍历原始字符串，将每个字符转换为小写
+    for (size_t i = 0; i < len; i++)
+    {
+        result[i] = towlower(str[i]);
+    }
+    // 添加空字符作为字符串的结尾
+    result[len] = L'\0';
+    // 返回结果字符串的指针
+    return result;
+}
+
+
+const const char* to_lower1(const char* str)
+{
+    // 创建一个新的字符串，用于存储转换后的结果
+    size_t len = strlen(str);
+    char* result = new char[len + 1];
+    // 遍历原始字符串，将每个字符转换为小写
+    for (size_t i = 0; i < len; i++)
+    {
+        result[i] = towlower(str[i]);
+    }
+    // 添加空字符作为字符串的结尾
+    result[len] = L'\0';
+    // 返回结果字符串的指针
+    return result;
+}
+
+int getStructString(TestStringStruct* s)
+{
+    s->str[0] = 'a';
+    s->str[1] = 'b';
+    s->str[2] = '\0';
+    return 0;
+}

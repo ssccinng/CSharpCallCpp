@@ -2,11 +2,23 @@
 
 
 
-#region 基础数据类型
+
+
 using CsharpCallCpp;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.Json;
+
+TestStringStruct testStringStruct = new TestStringStruct();
+Console.WriteLine(CppWapper.GetStructString(ref testStringStruct));
+Console.WriteLine(testStringStruct.str);
+
+var aacc = CppWapperHelpers.ToLower("ASDasd");
+var aacc1 = CppWapperHelpers.ToLower1("ASDasd");
+Console.WriteLine(aacc);
+Console.WriteLine(aacc1);
+return;
+#region 基础数据类型
 
 // P/Invoke
 

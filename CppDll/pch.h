@@ -28,6 +28,12 @@ struct TestArrayStruct
 };
 
 
+struct TestStringStruct
+{
+	char str[256];
+	// 其他成员字段...
+};
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -91,6 +97,9 @@ extern "C" {
 
 
 
+	__declspec(dllexport) const wchar_t* to_lower (const wchar_t* s);
+	__declspec(dllexport) const char* to_lower1 (const char* s);
+	__declspec(dllexport) int getStructString(TestStringStruct* s);
 
 
 
